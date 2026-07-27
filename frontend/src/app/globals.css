@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  color: #e5e5e5;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+[data-color-mode="dark"] .w-md-editor {
+  background: #141414 !important;
+  border-color: #262626 !important;
+  color: #e5e5e5 !important;
+}
+
+[data-color-mode="dark"] .w-md-editor-toolbar {
+  background: #1a1a1a !important;
+  border-bottom-color: #262626 !important;
+}
+
+[data-color-mode="dark"] .w-md-editor-toolbar li > button {
+  color: #a3a3a3 !important;
+}
+
+[data-color-mode="dark"] .w-md-editor-toolbar li.active > button {
+  color: #60a5fa !important;
+}
+
+[data-color-mode="dark"] .w-md-editor-content {
+  background: #141414 !important;
+}
+
+[data-color-mode="dark"] .w-md-editor-text-pre,
+[data-color-mode="dark"] .w-md-editor-text-input,
+[data-color-mode="dark"] .w-md-editor-text {
+  color: #e5e5e5 !important;
+}
+
+[data-color-mode="dark"] .wmde-markdown {
+  background: #141414 !important;
+  color: #e5e5e5 !important;
+}
