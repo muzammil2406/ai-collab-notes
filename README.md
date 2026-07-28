@@ -1,112 +1,106 @@
-# AI Job Application Tracker
+# AI-Powered Knowledge Base
 
-Full-stack AI-powered resume analysis and cold email generation tool. Upload a resume PDF, paste a job description, and get instant ATS match scoring, skill gap analysis, and AI-generated cold outreach emails.
+A smart notes app with AI-powered summarization, auto-tagging, and Q&A. Built with NestJS, Next.js 14, and Groq AI.
 
-## Live URLs
+## Links
 
-| Service | URL |
-|---|---|
-| **Frontend** | https://frontend-xi-ochre-68.vercel.app |
-| **Backend API** | https://ai-job-tracker-backend-beige.vercel.app |
-| **Swagger Docs** | https://ai-job-tracker-backend-beige.vercel.app/api |
-
-## Tech Stack
-
-- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **Backend:** NestJS, Prisma ORM, PostgreSQL (Neon.tech)
-- **AI:** Groq API (llama-3.3-70b-versatile via OpenAI SDK)
-- **Auth:** JWT (bcrypt + passport)
-- **Hosting:** Frontend on Vercel, Backend on Vercel (serverless function)
+- **Frontend**: https://frontend-xi-ochre-68.vercel.app
+- **Backend API**: https://kb-api-qru1.onrender.com
+- **GitHub**: https://github.com/muzammil2406/ai-collab-notes
 
 ## Features
 
-- User registration & JWT-based authentication
-- PDF resume upload & text extraction (pdf-parse)
-- AI-powered resume-JD match scoring (0-100)
-- Matched/missing skills identification
-- Bullet-point resume improvement suggestions
-- Cold email generation per role/JD
-- Analysis history page
-- Swagger API documentation
+- Create and edit notes with Markdown editor
+- AI-powered summaries (one-click)
+- Auto-suggested tags based on content
+- Ask questions about your notes (AI Q&A)
+- Search and filter by tags
+- Dashboard with stats and tag cloud
+- JWT authentication (register/login)
 
-## Project Structure
+## Tech Stack
 
-```
-├── backend/                # NestJS API
-│   ├── api/index.js        # Vercel serverless entry point
-│   ├── prisma/schema.prisma
-│   ├── src/
-│   │   ├── analyze/        # Resume analysis + cold email
-│   │   ├── auth/           # Register/login (JWT)
-│   │   ├── resume/         # Resume CRUD
-│   │   └── prisma/         # Database service
-│   └── vercel.json
-├── frontend/               # Next.js app
-│   ├── app/
-│   │   ├── login/
-│   │   ├── register/
-│   │   ├── dashboard/
-│   │   ├── analyze/
-│   │   └── history/
-│   └── lib/api.ts          # API client
-└── vercel.json             # Monorepo root config
-```
+| Tier | Technology |
+|---|---|
+| Backend | NestJS 10, TypeScript |
+| Frontend | Next.js 14, Tailwind CSS, TypeScript |
+| Database | PostgreSQL (Neon.tech) via Prisma ORM |
+| AI | Groq API (llama-3.3-70b-versatile) |
+| Auth | JWT + bcrypt |
+| Hosting | Render (backend) + Vercel (frontend) |
 
-## Environment Variables
+## Getting Started
 
-### Backend
-- `DATABASE_URL` — PostgreSQL connection string (Neon.tech)
-- `GROQ_API_KEY` — Groq API key
-- `JWT_SECRET` — Secret for signing JWTs
-- `FRONTEND_URL` — Allowed CORS origin
-- `NODE_ENV` — `production`
+### Prerequisites
 
-### Frontend
-- `NEXT_PUBLIC_API_URL` — Backend API base URL
+- Node.js 18+
+- PostgreSQL database (or Neon.tech account)
+- Groq API key (free at https://console.groq.com/keys)
 
-## Local Development
+### Backend Setup
 
 ```bash
-# Backend
 cd backend
 npm install
-npx prisma generate
 npx prisma db push
 npm run start:dev
+```
 
-# Frontend (separate terminal)
+Create `backend/.env`:
+
+```env
+DATABASE_URL="postgresql://..."
+JWT_SECRET="your-random-secret"
+GROQ_API_KEY="gsk-..."
+FRONTEND_URL="http://localhost:3000"
+```
+
+### Frontend Setup
+
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
+Create `frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_API_URL="http://localhost:5000"
+```
+
+Open http://localhost:3000, register an account, and start creating notes.
+
 ## API Endpoints
 
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| POST | /auth/register | No | Register new user |
-| POST | /auth/login | No | Login |
-| POST | /analyze/resume | JWT | Upload PDF + job description for analysis |
-| POST | /analyze/cold-email | JWT | Generate cold email |
-| GET | /resume | JWT | List saved resumes |
-| POST | /resume | JWT | Save a resume version |
-| DELETE | /resume/:id | JWT | Delete a resume |
-| GET | /api | No | Swagger UI |
+| POST | /api/auth/register | No | Register user |
+| POST | /api/auth/login | No | Login, returns JWT |
+| GET | /api/notes | Yes | List notes (query: search, tag) |
+| POST | /api/notes | Yes | Create note |
+| GET | /api/notes/:id | Yes | Get note |
+| PUT | /api/notes/:id | Yes | Update note |
+| DELETE | /api/notes/:id | Yes | Delete note |
+| GET | /api/notes/stats | Yes | Dashboard stats + tag cloud |
+| POST | /api/ai/summarize | Yes | Generate summary |
+| POST | /api/ai/tags | Yes | Suggest tags |
+| POST | /api/ai/ask | Yes | Ask about your notes |
 
 ## Deployment
 
-The backend deploys to Vercel as a serverless function. The build pipeline:
-1. `npm install --include=dev` installs all deps
-2. `npx prisma generate` generates Prisma client
-3. `npm run build` (`nest build`) compiles TypeScript
-4. Vercel bundles `api/index.js` with the compiled dist
+Push to `main` branch → Render and Vercel auto-deploy.
 
-```bash
-# Deploy backend
-cd backend
-vercel deploy --prod
+### Render (backend)
 
-# Deploy frontend
-cd frontend
-vercel deploy --prod
-```
+Set environment variables in Render dashboard:
+- `DATABASE_URL`, `JWT_SECRET`, `GROQ_API_KEY`, `FRONTEND_URL`
+
+### Vercel (frontend)
+
+Set environment variable in Vercel dashboard:
+- `NEXT_PUBLIC_API_URL` = your Render backend URL
+
+## License
+
+MIT
